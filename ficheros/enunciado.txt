@@ -1,0 +1,8 @@
+Consulta al catalogo de mySQL
+Crear un proyecto para poder acceder a las bases de datos, tablas y registros de un servidor mysql.
+
+Hacerlo por consola.
+
+Listar las bases de datos, luego las tablas de una base de datos concreta y por ultimo los registros de una tabla elegida.
+
+Las consultas al catalogo se hacen contra la base de datos information_schema. Todas las consultas se comentaron en clase.
