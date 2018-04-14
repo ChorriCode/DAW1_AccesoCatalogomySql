@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class Controller {
 				"information_schema",
 				"com.mysql.jdbc.Driver", 
 				"root", 
-				"Gratis007");
+				"");
 		this.model = new Model(myConnection);
 		this.model.setConnDB(myConnection);
 		model.connectToBD();
@@ -42,45 +43,103 @@ public class Controller {
 				if (datos.getRow() == 0) break;	
 				resultado.add(datos.getString(1));
 			}
+			resultado.add("Atras");
+			resultado.add("Salir");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		view.mostrarMenuBBDD(resultado, "Selecciona Base de Datos ");
-		System.out.println(view.getOption());
-		System.out.println(view.getDatoSeleccionado());
+		
+		//almaceno el tipo de opcion para que en main el switch reconozca cuando se elige una opcion y sepa cuando es atrás salir u otra
+		if (Integer.parseInt(view.getOptionNumber()) <= (resultado.size()-3)) {
+			view.setOptionForMain("Tablas");
+		} else if (Integer.parseInt(view.getOptionNumber()) == (resultado.size()-2)) {
+			view.setOptionForMain("Atras");
+		} else {
+			view.setOptionForMain("Salir");
+		}
 	}
 	
 	public void listTables(Model myModel){
 		ArrayList<String> resultado = new ArrayList<String>();
 		
-		ResultSet datos = myModel.readTableNames(view.getDatoSeleccionado());
+		ResultSet datos = myModel.readTableNames(view.getOptionName());
 
 		try {
 			while (datos.next()) {
 				if (datos.getRow() == 0) break;	
-				resultado.add(datos.getString(1));
-				
+				resultado.add(datos.getString(1));			
 			}
+			resultado.add("Atras");
+			resultado.add("Salir");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		view.mostrarMenuBBDD(resultado, "Selecciona Tabla de la Base de Datos " + view.getDatoSeleccionado());
-		System.out.println(view.getOption());
-		System.out.println(view.getDatoSeleccionado());
+		view.setDbName(view.getOptionName()); //guardo el nombre de la base de datos para usarlo en la consulta
+		view.mostrarMenuBBDD(resultado, "Selecciona Tabla de la Base de Datos " + view.getOptionName());
+
+		//almaceno el tipo de opcion para que en main el switch reconozca cuando se elige una opcion y sepa cuando es atrás salir u otra
+		if (Integer.parseInt(view.getOptionNumber()) <= (resultado.size()-3)) {
+			view.setOptionForMain("Registros");
+		} else if (Integer.parseInt(view.getOptionNumber()) == (resultado.size()-2)) {
+			view.setOptionForMain("Atras");
+		} else {
+			view.setOptionForMain("Salir");
+		}
 	}
 	
-	public ArrayList<String> listDatasTable(Model myModel, String tabla, String sql){
-		ArrayList<String> resultado = new ArrayList<String>();
-		myModel.readOnBD(tabla, sql);
+	public void listDatasTable(Model myModel, String tabla, String sql){
+		ArrayList<HashMap<String,Object>> registros = new ArrayList<HashMap<String,Object>>();
+		//myModel.readOnBD(myModel.getConnDB().getDbName(),tabla, sql);
+		ResultSet datos = myModel.readOnBD(view.getDbName(),tabla, sql);
 		
-		
-		return resultado;
+		try {
+			ResultSetMetaData metaData = datos.getMetaData();
+			
+			datos.first();
+			if (datos.getRow() == 0) {
+				System.out.println(view.hyphenatedFill("NO HAY REGISTROS".length(), ">"));
+				System.out.println("NO HAY REGISTROS");
+				System.out.println(view.hyphenatedFill("NO HAY REGISTROS".length(), "<"));
+				myModel.getConn().close();
+				datos.close();
+				view.setOptionForMain("Atras");
+				return;
+			} else
+				datos.beforeFirst();
+			
+			
+			while (datos.next()) {
+				HashMap<String, Object> datosUnaLinea = new HashMap<String,Object>();
+				for (int i = 1; i <= metaData.getColumnCount(); i++) {
+					datosUnaLinea.put(metaData.getColumnName(i), datos.getObject(i));
+					//datosUnaLinea.put(metaData.getColumnName(i), rs.getString(i)); //Hace lo mismo pero con otro método
+					//System.out.println(rs.getString(i));					
+				}
+			registros.add(datosUnaLinea);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		try {
+			myModel.getConn().close(); //cerramos la conexion que aun estaba abierta
+			datos.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		view.setOptionForMain("Atras");
+		view.showTableRegistries(registros, tabla);
 		
 	}
+	
+	
 	public Model getModel() {
 		return model;
 	}

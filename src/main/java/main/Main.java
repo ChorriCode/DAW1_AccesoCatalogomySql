@@ -8,17 +8,33 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		View myView = new View();	
-		Controller myController = new Controller(null, myView);
-		myController.selectConnectionToDDBB();
-		Model myModel = myController.getModel();
-		myController.listDDBB(myModel);
-		myController.listTables(myModel);
-		myController.listDatasTable(myModel, myView.getDatoSeleccionado(), "Select * from ");
-		//Menú eleccion tipo base de datos
-		//myView.menuBBDD();
 		
-
+		
+		View myView = new View();
+		Controller myController = new Controller(null, myView);
+		String optionSwitch = "";
+		do {			
+			
+			myController.selectConnectionToDDBB();
+			Model myModel = myController.getModel();
+			myController.listDDBB(myModel);
+			optionSwitch = myView.getOptionForMain();
+			
+			do {
+				switch (optionSwitch) {
+					case "Tablas":
+						myController.listTables(myModel);
+						optionSwitch = myView.getOptionForMain();
+						break;
+					case "Registros":
+						myController.listDatasTable(myModel, myView.getOptionName(), "Select * from ");
+						optionSwitch = myView.getOptionForMain();
+						break;
+				}
+			} while (optionSwitch == "Tablas"  || optionSwitch == "Registros");
+		} while (optionSwitch != "Salir");
+		
+		System.out.println("Que tenga un buen dÃ­a");
 		
 	
 	}
