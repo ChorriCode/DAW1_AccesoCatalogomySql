@@ -14,6 +14,7 @@ public class Main {
 		Model myModel = myController.getModel();
 		myController.listDDBB(myModel);
 		myController.listTables(myModel);
+		myController.listDatasTable(myModel, myView.getDatoSeleccionado(), "Select * from ");
 		//Menú eleccion tipo base de datos
 		//myView.menuBBDD();
 		
@@ -25,4 +26,4 @@ public class Main {
 }
 
 //SELECT DISTINCT TABLE_SCHEMA FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA <> 'information_schema' and TABLE_SCHEMA <> 'performance_schema' and TABLE_SCHEMA <> 'mysql'; 
-//SELECT TABLE_SCHEMA, TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA = "BD_EMPLEADOS"
+//SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "BD_EMPLEADOS"

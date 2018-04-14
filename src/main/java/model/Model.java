@@ -55,16 +55,17 @@ public class Model {
 		return myResulSet;
 	}
 	
-	public ResultSet readTableNames(String tableName) {
-		ResultSet myResulSet = null;
+	public ResultSet readTableNames(String DBName) {
+		ResultSet myResultSet = null;
 		try {
 			Statement myStatement = conn.createStatement();
-			myResulSet = myStatement.executeQuery("SELECT TABLE_SCHEMA, TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA = 'BD_EMPLEADOS'");
+			myResultSet = myStatement.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '" + DBName + "';");
+			
 		} catch (SQLException e) {;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return myResulSet;
+		return myResultSet;
 	}
 
 	// ************* C R U D -- INSERT   READ   UPDATE   DELETE **************
@@ -77,7 +78,7 @@ public class Model {
 		ResultSet myResulSet = null;
 		try {
 			Statement myStatement = conn.createStatement();
-			myResulSet = myStatement.executeQuery(sql);
+			myResulSet = myStatement.executeQuery(sql + tabla + ";");
 		} catch (SQLException e) {;
 			// TODO Auto-generated catch block
 			e.printStackTrace();

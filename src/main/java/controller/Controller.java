@@ -47,31 +47,33 @@ public class Controller {
 			e.printStackTrace();
 		}
 
-		view.mostrarMenuBBDD(resultado, "Selecciona Base de Datos");
+		view.mostrarMenuBBDD(resultado, "Selecciona Base de Datos ");
 		System.out.println(view.getOption());
 		System.out.println(view.getDatoSeleccionado());
 	}
 	
 	public void listTables(Model myModel){
 		ArrayList<String> resultado = new ArrayList<String>();
-		ResultSet datos = myModel.readTableNames();
+		
+		ResultSet datos = myModel.readTableNames(view.getDatoSeleccionado());
 
 		try {
 			while (datos.next()) {
 				if (datos.getRow() == 0) break;	
 				resultado.add(datos.getString(1));
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		view.mostrarMenuBBDD(resultado, "Selecciona Tabla de la Base de Datos" + view.getDatoSeleccionado());
+		view.mostrarMenuBBDD(resultado, "Selecciona Tabla de la Base de Datos " + view.getDatoSeleccionado());
 		System.out.println(view.getOption());
 		System.out.println(view.getDatoSeleccionado());
 	}
 	
-	public ArrayList<String> listadoTables(Model myModel, String tabla, String sql){
+	public ArrayList<String> listDatasTable(Model myModel, String tabla, String sql){
 		ArrayList<String> resultado = new ArrayList<String>();
 		myModel.readOnBD(tabla, sql);
 		
