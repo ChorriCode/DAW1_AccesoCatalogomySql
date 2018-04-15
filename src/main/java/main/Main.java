@@ -11,13 +11,20 @@ public class Main {
 		
 		
 		View myView = new View();
-		Controller myController = new Controller(null, myView);
+		Model myModel = null;
+		//El objeto de la clase Model no lo creo aun por eso lo paso null
+		Controller myController = new Controller(myModel, myView);
 		String optionSwitch = "";
 		do {			
-			
+			//a parte de hacer la conexion, este metodo crea el objeto de la clase Model que necesita la clase controller
 			myController.selectConnectionToDDBB();
-			Model myModel = myController.getModel();
+			//ahora asignamos a este objeto de la clase Model el mismo que hemos creado dentro de la clase Controller
+			myModel = myController.getModel();
+			//pasamos a pedirle al controlador que solicite los datos de las diferentes BBDD que hay en nuestro MySQL
+			//obviamente para eso usara clase Model y despues la View para mostrarlas
 			myController.listDDBB(myModel);
+			//En la clase View tenemos un atributo que guarda la opcion elegida cada vez que sale un menu a preguntar algo
+			//y ese valor lo recuperamos para que el switch siguiente sepa que caso seleccionar
 			optionSwitch = myView.getOptionForMain();
 			
 			do {
