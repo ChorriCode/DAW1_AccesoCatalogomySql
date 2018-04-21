@@ -18,7 +18,7 @@ public class Model {
 		this.connDB = connDB;
 	}
 
-	//M�todo que conecta con la base de datos seleccionada.
+	//Metodo que conecta con la base de datos seleccionada.
 	public Connection connectToBD() {	
 		this.conn = null;
 		try {
@@ -93,6 +93,7 @@ public class Model {
 	}
 	
 	public void  deleteOnBD() {
+		
 		
 	}
 
