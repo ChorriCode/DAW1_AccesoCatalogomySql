@@ -12,7 +12,7 @@ public class Main {
 		
 		View myView = new View();
 		Model myModel = null;
-		//El objeto de la clase Model no lo creo a�n por eso lo paso null
+		//El objeto de la clase Model no lo creo aún por eso lo paso null
 		Controller myController = new Controller(myModel, myView);
 		String optionSwitch = "";
 		do {			
@@ -41,7 +41,7 @@ public class Main {
 			} while (optionSwitch == "Tablas"  || optionSwitch == "Registros");
 		} while (optionSwitch != "Salir");
 		
-		System.out.println("Que tenga un buen día");
+		System.out.println("Que tenga un buen dÃ­a");
 		
 	
 	}
