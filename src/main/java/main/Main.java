@@ -12,7 +12,7 @@ public class Main {
 		
 		View myView = new View();
 		Model myModel = null;
-		//El objeto de la clase Model no lo creo aun por eso lo paso null
+		//El objeto de la clase Model no lo creo aún por eso lo paso null
 		Controller myController = new Controller(myModel, myView);
 		String optionSwitch = "";
 		do {			
