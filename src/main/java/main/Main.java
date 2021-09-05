@@ -23,7 +23,7 @@ public class Main {
 			//pasamos a pedirle al controlador que solicite los datos de las diferentes BBDD que hay en nuestro MySQL
 			//obviamente para eso usara clase Model y después la View para mostrarlas
 			myController.listDDBB(myModel);
-			//En la clase View tenemos un atributo que guarda la opcion elegida cada vez que sale un menu a preguntar algo
+			//En la clase View tenemos un atributo que guarda la opción elegida cada vez que sale un menu a preguntar algo
 			//y ese valor lo recuperamos para que el switch siguiente sepa que caso seleccionar
 			optionSwitch = myView.getOptionForMain();
 			
