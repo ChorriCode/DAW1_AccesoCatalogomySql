@@ -41,7 +41,7 @@ public class Main {
 			} while (optionSwitch == "Tablas"  || optionSwitch == "Registros");
 		} while (optionSwitch != "Salir");
 		
-		System.out.println("Que tenga un buen día");
+		System.out.println("Que tenga un buen día.");
 		
 	
 	}
